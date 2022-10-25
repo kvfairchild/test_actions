@@ -1,13 +1,13 @@
 name: Automatically approve and merge plugin PRs
 
 on:
-  pull_request:
-    types: [opened, edited, synchronize, reopened]
-    paths:
-      - 'project_root/benchmarks/*'
-      - 'project_root/models/*'
-      - 'project_root/metrics/*'
-      - 'project_root/data/*'
+  pull_request
+#     types: [opened, edited, synchronize, reopened]
+#     paths:
+#       - 'project_root/benchmarks/*'
+#       - 'project_root/models/*'
+#       - 'project_root/metrics/*'
+#       - 'project_root/data/*'
 
 jobs:
   changes:
