@@ -11,8 +11,8 @@ jobs:
     - name: trigger single job
       uses: GoldenspearLLC/build-jenkins-job@master
       with:
-        url: "braintree.mit.edu:8080/"
+        jenkins-url: "braintree.mit.edu:8080/"
         user: "kvg0"
-        token: ${{ secrets.JENKINS_TOKEN }}
+        jenkins-token: ${{ secrets.JENKINS_TOKEN }}
         job-path: "job/dev_run_benchmarks/"
-        job-params: "{'FRESH_BUILD':'True', 'BUILD_BRANCH':'master', 'DEPLOY_DEV':'True', 'DEPLOY_QA':'False, 'DEPLOY_STAGING':'False, 'DEPLOY_PRODUCTION':'False'}"
+        job-params: "{'models':'test-model', 'benchmarks':'test-benchmark'}"
