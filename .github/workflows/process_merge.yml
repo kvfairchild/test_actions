@@ -7,17 +7,15 @@ on:
     types: [closed]
 
 jobs:
-  trigger-jenkins:
+  build:
     if: github.event.pull_request.merged == true
+    name: Build
+    runs-on: ubuntu-latest
     steps:
-      build:
-          name: Build
-          runs-on: ubuntu-latest
-          steps:
-          - name: trigger single job
-            uses: appleboy/jenkins-action@master
-            with:
-              url: "http://braintree.mit.edu:8080/"
-              user: "kvg0"
-              token: ${{ secrets.JENKINS_TOKEN }}
-              job: "dev_run_benchmarks"
+    - name: trigger single job
+      uses: appleboy/jenkins-action@master
+      with:
+        url: "http://braintree.mit.edu:8080/"
+        user: "kvg0"
+        token: ${{ secrets.JENKINS_TOKEN }}
+        job: "dev_run_benchmarks"
