@@ -1,0 +1,18 @@
+name: Trigger Jenkins run on merged benchmark or model PR
+
+on:
+  pull_request
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: trigger single job
+      uses: GoldenspearLLC/build-jenkins-job@master
+      with:
+        url: "braintree.mit.edu:8080/"
+        user: "kvg0"
+        token: ${{ secrets.JENKINS_TOKEN }}
+        job-path: "job/dev_run_benchmarks/"
+        job-params: "{'FRESH_BUILD':'True', 'BUILD_BRANCH':'master', 'DEPLOY_DEV':'True', 'DEPLOY_QA':'False, 'DEPLOY_STAGING':'False, 'DEPLOY_PRODUCTION':'False'}"
