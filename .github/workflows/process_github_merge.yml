@@ -13,6 +13,6 @@ jobs:
       with:
         jenkins-url: "braintree.mit.edu:8080/"
         user: "kvg0"
-        jenkins-token: "trigger2scoreAmodel"
-        job-path: "job/dev_run_benchmarks/"
-        job-params: '{"models":"distilgpt2"}'
+        jenkins-token: ${{ secrets.JENKINS_TOKEN }}
+        job-path: "dev_run_benchmarks/"
+        job-params: '{"models":"distilgpt2", "benchmarks":"Futrell2018-pearsonr"}'
