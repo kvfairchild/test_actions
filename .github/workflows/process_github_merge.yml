@@ -15,4 +15,4 @@ jobs:
         user: "kvg0"
         jenkins-token: ${{ secrets.JENKINS_TOKEN }}
         job-path: "job/dev_run_benchmarks/"
-        job-params: '{"models":"test-model", "benchmarks":"test-benchmark"}'
+        job-params: '{"models":"distilgpt2", "benchmarks":"Futrell2018-pearsonr"}'
