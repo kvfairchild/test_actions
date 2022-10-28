@@ -4,15 +4,37 @@ on:
   pull_request
 
 jobs:
-  build:
-    name: Build
+  getawscreds:
+    name: Get AWS Credentials
     runs-on: ubuntu-latest
     steps:
-    - name: trigger single job
-      uses: GoldenspearLLC/build-jenkins-job@master
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        jenkins-url: "braintree.mit.edu:8080/"
-        user: "kvg0"
-        jenkins-token: ${{ secrets.JENKINS_TOKEN }}
-        job-path: "dev_run_benchmarks/"
-        job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Read secrets from AWS Secrets Manager into environment variables
+      uses: abhilash1in/aws-secrets-manager-action@v2.1.0
+      with:
+        secrets: |
+          brainscore-website_jenkins_access
+        parse-json: true
+
+    - name: Check if env variable is set after fetching secrets
+      run: if [ -z ${BRAINSCORE-WEBSITE_JENKINS_ACCESS+x} ]; then echo "BRAINSCORE-WEBSITE_JENKINS_ACCESS is unset"; else echo "BRAINSCORE-WEBSITE_JENKINS_ACCESS is set to '$BRAINSCORE-WEBSITE_JENKINS_ACCESS'"; fi
+
+# jobs:
+#   build:
+#     name: Build
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: trigger single job
+#       uses: GoldenspearLLC/build-jenkins-job@master
+#       with:
+#         jenkins-url: "braintree.mit.edu:8080/"
+#         user: "kvg0"
+#         jenkins-token: "trigger2scoreAmodel"
+#         job-path: "dev_run_benchmarks/"
+#         job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
