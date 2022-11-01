@@ -1,7 +1,12 @@
 name: Merge plugin-only PRs
 
 on:
-  pull_request_target
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - ready_for_review
+      - synchronize
   check_suite:
     types:
       - completed
