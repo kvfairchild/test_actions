@@ -43,4 +43,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: rebase
           do-not-merge-labels: never-merge
-          pull_request: ${{ github.event.inputs.pull-request }}
+          pull-request: ${{ github.event.inputs.pull-request }}
