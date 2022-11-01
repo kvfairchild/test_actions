@@ -38,7 +38,7 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
       - name: Auto Merge
-        uses: alexwilson/enable-github-automerge-action@main
+        uses: reitermarkus/automerge@v2
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          merge-method: "SQUASH"
+          github-token: "${{ secrets.AUTOMERGE_TOKEN }}"
+          merge-method: "squash"
