@@ -26,11 +26,15 @@ jobs:
         echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN" >> $GITHUB_ENV
     - name: get crumb
       run: |
-        response = $(curl -v -X GET ${{ env.CRUMB_URL }})
-        echo "$response"
-    # - name: curl
-    #   run: |
-    #     curl -X POST ${{ env.URL }}
+        echo "CRUMB_RESPONSE=$(curl -v -X GET ${{ env.CRUMB_URL }})" >> $GITHUB_ENV
+
+    - name: Set env variables from crumb
+      run: |
+          echo "CRUMB=$(jq -r '.crumb' <<< "$CRUMB_RESPONSE")" >> $GITHUB_ENV
+
+    - name: curl
+      run: |
+        curl -X POST ${{ env.URL }} -H 'Jenkins-Crumb: ${{ env.CRUMB }}'
   # getawscreds:
   #   name: Get AWS Credentials
   #   runs-on: ubuntu-latest
