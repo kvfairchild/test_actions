@@ -24,12 +24,15 @@ jobs:
     - name: Set secret to global env var
       run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV"
 
+    - name: Check if env var is set
+      run: echo "$JENKINS"
+
   parseawscreds:
     name: Parse AWS Credentials
     runs-on: ubuntu-latest
     steps:
     - name: Check if env var is set
-      run: echo $JENKINS
+      run: echo "$JENKINS"
     # - name: 
 
 
