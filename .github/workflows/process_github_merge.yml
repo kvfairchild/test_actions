@@ -25,7 +25,7 @@ jobs:
 
     - name: Set secret as job output
       id: setsecret
-      run: echo "jenkins=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_OUTPUT"
+      run: echo "jenkins=$BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_OUTPUT
 
   parseawscreds:
     name: Parse AWS Credentials
