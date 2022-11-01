@@ -8,9 +8,6 @@ on:
       - reopened
       - edited
       - ready_for_review
-  check_suite:
-    types:
-      - completed
 
 jobs:
   checkchanges:
@@ -44,9 +41,17 @@ jobs:
     needs: checkchanges
     # if: ${{ needs.checkchanges.outputs.IS_PLUGIN_ONLY }}
     steps:
+      uses: actions/checkout@v2
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
+      - name: Add automerge label
+        uses: actions-ecosystem/action-add-labels@v1
+          if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
+          with:
+            labels:
+              automerge
       - name: Auto Merge
         uses: "pascalgn/automerge-action@v0.15.5"
         env: 
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: "squash"
