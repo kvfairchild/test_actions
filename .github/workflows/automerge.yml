@@ -25,12 +25,10 @@ jobs:
       
       - name: Run python script
         run: |
-          output=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})
-          echo "::set-output name=changelog::$output"
-        id: step1
+          echo "IS_PLUGIN_ONLY=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})" >> $GITHUB_ENV
      
-      - name: Print changelog
-        run: echo "$ {{ steps.step1.outputs.changelog }}"
+      - name: Print output
+        run: echo "${{ env.IS_PLUGIN_ONLY }}"
   # autoapprove:
   #   name: Automatically Approve a Plugin PR
   #   # needs: changes

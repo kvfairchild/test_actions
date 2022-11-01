@@ -15,6 +15,6 @@ for f in changed_files_list:
 		plugin_files_changed.append(f)
 
 if len(non_plugin_files_changed) > 0:
-	print("stop")
+	print("false")
 else:
-	print("continue")
+	print("true")
