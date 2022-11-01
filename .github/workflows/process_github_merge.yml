@@ -4,34 +4,48 @@ on:
   pull_request
 
 jobs:
-  getawscreds:
-    name: Get AWS Credentials
+  curl:
     runs-on: ubuntu-latest
     steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Read secrets from AWS Secrets Manager into environment variables
-      uses: abhilash1in/aws-secrets-manager-action@v2.1.0
-      with:
-        secrets: brainscore-website_jenkins_access
-        parse-json: false
-
-    - name: Set env variables from secret
-      run: |
-          echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-          echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-          echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-
-    - name: trigger single job
-      uses: GoldenspearLLC/build-jenkins-job@master
-      with:
+    - name: curl
+      uses: wei/curl@v1
+      env:
         jenkins-url: "braintree.mit.edu:8080/"
-        user: ${{ env.USER }}
+        user: "kvg0"
         jenkins-token: "trigger2scoreAmodel"
-        job-path: "dev_run_benchmarks/"
+        job-path: "dev_run_benchmarks"
         job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
+      with:
+        args: -X POST $jenkins-url/job/$job-path/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$jenkins-token
+  # getawscreds:
+  #   name: Get AWS Credentials
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Configure AWS Credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: ${{ secrets.AWS_REGION }}
+
+  #   - name: Read secrets from AWS Secrets Manager into environment variables
+  #     uses: abhilash1in/aws-secrets-manager-action@v2.1.0
+  #     with:
+  #       secrets: brainscore-website_jenkins_access
+  #       parse-json: false
+
+  #   - name: Set env variables from secret
+  #     run: |
+  #         echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+  #         echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+  #         echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+
+
+    # - name: trigger single job
+    #   uses: GoldenspearLLC/build-jenkins-job@master
+    #   with:
+    #     jenkins-url: "braintree.mit.edu:8080/"
+    #     user: ${{ env.USER }}
+    #     jenkins-token: "trigger2scoreAmodel"
+    #     job-path: "dev_run_benchmarks/"
+    #     job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
