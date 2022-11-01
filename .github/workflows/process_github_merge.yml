@@ -8,15 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: curl
-      uses: wei/curl@v1
       env:
         jenkins-url: "braintree.mit.edu:8080/"
         user: "kvg0"
         jenkins-token: "trigger2scoreAmodel"
         job-path: "dev_run_benchmarks"
         job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
-      with:
-        args: -X POST $jenkins-url/job/$job-path/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$jenkins-token
+      run: |
+        curl -X POST "$jenkins-url/job/$job-path/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$jenkins-token"
   # getawscreds:
   #   name: Get AWS Credentials
   #   runs-on: ubuntu-latest
