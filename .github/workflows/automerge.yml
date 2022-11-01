@@ -39,3 +39,5 @@ jobs:
         uses: hmarr/auto-approve-action@v3.1.0
       - name: Auto merge
         uses: pascalgn/automerge-action@135f0bdb927d9807b5446f7ca9ecc2c51de03c4a
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
