@@ -49,6 +49,7 @@ jobs:
           with:
             labels:
               automerge
+              
       # - name: Auto Merge
       #   uses: "pascalgn/automerge-action@v0.15.5"
       #   env: 
