@@ -34,7 +34,7 @@ jobs:
 
     - name: curl
       run: |
-        curl -X POST ${{ env.URL }} -H --user ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} 'Jenkins-Crumb: ${{ env.CRUMB }}'
+        curl -X POST ${{ env.URL }} --user ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} -H 'Jenkins-Crumb: ${{ env.CRUMB }}'
   # getawscreds:
   #   name: Get AWS Credentials
   #   runs-on: ubuntu-latest
