@@ -67,7 +67,11 @@ jobs:
       #       automerge
 
       - name: Auto Merge
-        uses: reitermarkus/automerge@v2
-        with: 
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash
+        uses: squalrus/merge-bot@v0.1.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          test: true
+          reviewers: true
+          checks_enabled: true
+          method: squash
+          delete_source_branch: true
