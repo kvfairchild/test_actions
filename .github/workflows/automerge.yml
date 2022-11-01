@@ -1,16 +1,7 @@
-
 name: Merge plugin-only PRs
 
 on:
-  pull_request_target:
-    types:
-      - opened
-      - synchronized
-      - reopened
-      - edited
-      - labeled
-      - unlabeled
-      - ready_for_review
+  pull_request_target
   check_suite:
     types:
       - completed
@@ -67,4 +58,4 @@ jobs:
         uses: reitermarkus/automerge@v2
         env: 
           token: "${{ secrets.GITHUB_TOKEN }}"
-          merge-method: "squash"
+          merge-method: squash
