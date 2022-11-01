@@ -47,3 +47,4 @@ jobs:
         with:
           token: "${{ secrets.AUTOMERGE_TOKEN }}"
           merge-method: "squash"
+          pull-request: ${{ github.event.inputs.pull-request }}
