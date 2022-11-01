@@ -38,8 +38,8 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
 
-      - name: Enable automerge
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.issue.number }}
+      # - name: Enable automerge
+      #   uses: peter-evans/enable-pull-request-automerge@v2
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     pull-request-number: ${{ github.event.issue.number }}
