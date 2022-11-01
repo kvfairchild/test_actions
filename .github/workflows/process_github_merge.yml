@@ -1,40 +1,30 @@
-name: Trigger Jenkins run on merged benchmark or model PR
+# name: Trigger Jenkins run on merged benchmark or model PR
 
-on:
-  pull_request
+# on:
+#   pull_request
 
-jobs:
-  curl:
-    runs-on: ubuntu-latest
-    env:
-      JENKINS_URL: "braintree.mit.edu:8080"
-      USER: "kvg0"
-      JENKINS_TOKEN: "trigger2scoreAmodel"
-      JOB_PATH: "dev_run_benchmarks"
-      JOB_PARAMS: '{"models":"brendel.Geirhos2021colour-top1"}'
-    steps:
-    # - name: set params
-    #   run: |
-    #     echo "JENKINS_URL=braintree.mit.edu:8080" >> $GITHUB_ENV
-    #     echo "USER=kvg0" >> $GITHUB_ENV
-    #     echo "JENKINS_TOKEN=trigger2scoreAmodel" >> $GITHUB_ENV
-    #     echo "JOB_PATH=dev_run_benchmarks" >> $GITHUB_ENV
-    #     echo "JOB_PARAMS='{"models":"brendel.Geirhos2021colour-top1"}'" >> $GITHUB_ENV
-    - name: build urls
-      run: |
-        echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user $USER:${{ secrets.JENKINS_TOKEN }}" >> $GITHUB_ENV
-        echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN" >> $GITHUB_ENV
-    # - name: get crumb
-    #   run: |
-    #     echo "CRUMB_RESPONSE=$(curl -v -X GET ${{ env.CRUMB_URL }})" >> $GITHUB_ENV
+# jobs:
+#   curl:
+#     runs-on: ubuntu-latest
+#     env:
+#       JENKINS_URL: "braintree.mit.edu:8080"
+#       USER: "kvg0"
+#       JENKINS_TOKEN: "trigger2scoreAmodel"
+#       JOB_PATH: "dev_run_benchmarks"
+#       JOB_PARAMS: '{"models":"brendel.Geirhos2021colour-top1"}'
+#     steps:
+#     - name: build urls
+#       run: |
+#         echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user $USER:${{ secrets.JENKINS_TOKEN }}" >> $GITHUB_ENV
+#         echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN" >> $GITHUB_ENV
+#     - name: curl
+#       run: |
+#         curl -X POST -u ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} ${{ env.URL }}
+  
 
-    # - name: Set env variables from crumb
-    #   run: |
-    #       echo "CRUMB=$(jq -r '.crumb' <<< "$CRUMB_RESPONSE")" >> $GITHUB_ENV
 
-    - name: curl
-      run: |
-        curl -X POST -u ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} ${{ env.URL }}
+
+
   
   # getawscreds:
   #   name: Get AWS Credentials
@@ -58,13 +48,3 @@ jobs:
   #         echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
   #         echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
   #         echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-
-
-    # - name: trigger single job
-    #   uses: GoldenspearLLC/build-jenkins-job@master
-    #   with:
-    #     jenkins-url: "braintree.mit.edu:8080/"
-    #     user: ${{ env.USER }}
-    #     jenkins-token: "trigger2scoreAmodel"
-    #     job-path: "dev_run_benchmarks/"
-    #     job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
