@@ -7,8 +7,6 @@ jobs:
   getawscreds:
     name: Get AWS Credentials
     runs-on: ubuntu-latest
-    outputs: 
-      jenkins: ${{ steps.setsecret.outputs.jenkins }}
     steps:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -23,29 +21,20 @@ jobs:
         secrets: brainscore-website_jenkins_access
         parse-json: false
 
-    - name: Set secret as job output
-      id: setsecret
-      run: echo "jenkins=$BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_OUTPUT
+    - name: Set secret to env var
+      run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV
 
-  parseawscreds:
-    name: Parse AWS Credentials
-    runs-on: ubuntu-latest
-    needs: getawscreds
-    steps:
-    - name: Check if output is available
-      run: echo ${{needs.getawscreds.outputs.jenkins}}
-    # - name: 
+    - name: Set env variables from secret
+      run: |
+          echo "USER=$(jq -r '.user' <<< "$JENKINS")" >> $GITHUB_ENV
+          echo "PASSWORD=$(jq -r '.password' <<< "$JENKINS")" >> $GITHUB_ENV
+          echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$JENKINS")" >> $GITHUB_ENV
 
-
-  # build:
-  #   name: Build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: trigger single job
-  #     uses: GoldenspearLLC/build-jenkins-job@master
-  #     with:
-  #       jenkins-url: "braintree.mit.edu:8080/"
-  #       user: "kvg0"
-  #       jenkins-token: "trigger2scoreAmodel"
-  #       job-path: "dev_run_benchmarks/"
-  #       job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
+    - name: trigger single job
+      uses: GoldenspearLLC/build-jenkins-job@master
+      with:
+        jenkins-url: "braintree.mit.edu:8080/"
+        user: ${{ env.USER }}
+        jenkins-token: ${{ env.PASSWORD }}
+        job-path: "dev_run_benchmarks/"
+        job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
