@@ -11,9 +11,6 @@ on:
       - labeled
       - unlabeled
       - ready_for_review
-  check_suite:
-    types:
-      - completed
 
 permissions:
   checks: read
