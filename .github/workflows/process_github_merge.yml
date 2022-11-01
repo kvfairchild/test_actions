@@ -6,17 +6,26 @@ on:
 jobs:
   curl:
     runs-on: ubuntu-latest
+    env:
+      JENKINS_URL: "braintree.mit.edu:8080"
+      USER: "kvg0"
+      JENKINS_TOKEN: "trigger2scoreAmodel"
+      JOB_PATH: "dev_run_benchmarks"
+      JOB_PARAMS: '{"models":"brendel.Geirhos2021colour-top1"}'
     steps:
-    - name: curl
-      env:
-        jenkins-url: "braintree.mit.edu:8080/"
-        user: "kvg0"
-        jenkins-token: "trigger2scoreAmodel"
-        job-path: "dev_run_benchmarks"
-        job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
-        url: 
+    # - name: set params
+    #   run: |
+    #     echo "JENKINS_URL=braintree.mit.edu:8080" >> $GITHUB_ENV
+    #     echo "USER=kvg0" >> $GITHUB_ENV
+    #     echo "JENKINS_TOKEN=trigger2scoreAmodel" >> $GITHUB_ENV
+    #     echo "JOB_PATH=dev_run_benchmarks" >> $GITHUB_ENV
+    #     echo "JOB_PARAMS='{"models":"brendel.Geirhos2021colour-top1"}'" >> $GITHUB_ENV
+    - name: build url
       run: |
-        curl -X POST "$jenkins-url"/job/"$job-path"/buildWithParameters?models=brendel.Geirhos2021colour-top1&token="$jenkins-token"
+        echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN"
+    - name: curl
+      run: |
+        curl -X POST ${{ URL }}
   # getawscreds:
   #   name: Get AWS Credentials
   #   runs-on: ubuntu-latest
