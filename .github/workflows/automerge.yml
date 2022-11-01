@@ -32,7 +32,7 @@ jobs:
       - name: Parse changed files with python script
         run: |
           echo "IS_PLUGIN_ONLY=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})" >> $GITHUB_OUTPUT
-     
+
   automerge:
     name: If only plugin files are changed, automatically approve
     runs-on: ubuntu-latest
@@ -46,7 +46,6 @@ jobs:
         uses: hmarr/auto-approve-action@v3.1.0
       - name: Add automerge label
         uses: actions-ecosystem/action-add-labels@v1
-          if: ${{ startsWith(github.event.comment.body, '/add-labels') }}
           with:
             labels:
               automerge
