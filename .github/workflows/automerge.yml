@@ -3,10 +3,9 @@ name: Merge plugin-only PRs
 
 on:
   pull_request
-  # pull_request_target
-  # check_suite:
-  #   types:
-  #     - completed
+  check_suite:
+    types:
+      - completed
 
 permissions:
   checks: read
