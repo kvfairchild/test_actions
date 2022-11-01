@@ -2,9 +2,6 @@
 name: Merge plugin-only PRs
 
 on:
-<<<<<<< HEAD
-  pull_request_target
-=======
   pull_request_target:
     types:
       - opened
@@ -17,7 +14,6 @@ on:
   check_suite:
     types:
       - completed
->>>>>>> cebf8005689de3d5daee7b0878fd45d93675ca8b
 
 permissions:
   checks: read
