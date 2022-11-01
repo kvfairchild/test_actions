@@ -4,50 +4,62 @@ on:
   pull_request
 
 jobs:
-   getawscreds:
-    name: Get AWS Credentials
+  curl:
     runs-on: ubuntu-latest
     env:
       JENKINS_URL: "braintree.mit.edu:8080"
+      USER: "kvg0"
       JENKINS_TOKEN: "trigger2scoreAmodel"
       JOB_PATH: "dev_run_benchmarks"
       JOB_PARAMS: '{"models":"brendel.Geirhos2021colour-top1"}'
     steps:
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Read secrets from AWS Secrets Manager into environment variables
-      uses: abhilash1in/aws-secrets-manager-action@v2.1.0
-      with:
-        secrets: brainscore-website_jenkins_access
-        parse-json: false
-
-    - name: Set env variables from secret
-      run: |
-          echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-          echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-          echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
-
+    # - name: set params
+    #   run: |
+    #     echo "JENKINS_URL=braintree.mit.edu:8080" >> $GITHUB_ENV
+    #     echo "USER=kvg0" >> $GITHUB_ENV
+    #     echo "JENKINS_TOKEN=trigger2scoreAmodel" >> $GITHUB_ENV
+    #     echo "JOB_PATH=dev_run_benchmarks" >> $GITHUB_ENV
+    #     echo "JOB_PARAMS='{"models":"brendel.Geirhos2021colour-top1"}'" >> $GITHUB_ENV
     - name: build urls
       run: |
-        echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user ${{ env.USER }}:${{ env.PASSWORD }}" >> $GITHUB_ENV
+        echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user $USER:${{ secrets.JENKINS_TOKEN }}" >> $GITHUB_ENV
         echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN" >> $GITHUB_ENV
-    - name: get crumb
-      run: |
-        echo "CRUMB_RESPONSE=$(curl -v -X GET ${{ env.CRUMB_URL }})" >> $GITHUB_ENV
+    # - name: get crumb
+    #   run: |
+    #     echo "CRUMB_RESPONSE=$(curl -v -X GET ${{ env.CRUMB_URL }})" >> $GITHUB_ENV
 
-    - name: Set env variables from crumb
-      run: |
-          echo "CRUMB=$(jq -r '.crumb' <<< "$CRUMB_RESPONSE")" >> $GITHUB_ENV
+    # - name: Set env variables from crumb
+    #   run: |
+    #       echo "CRUMB=$(jq -r '.crumb' <<< "$CRUMB_RESPONSE")" >> $GITHUB_ENV
 
     - name: curl
       run: |
-        curl -X POST ${{ env.URL }} --user ${{ env.USER }}:${{ env.PASSWORD }} -H 'Jenkins-Crumb: ${{ env.CRUMB }}'
- 
+        curl -I -u ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} ${{ env.URL }}
+  
+  # getawscreds:
+  #   name: Get AWS Credentials
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Configure AWS Credentials
+  #     uses: aws-actions/configure-aws-credentials@v1
+  #     with:
+  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #       aws-region: ${{ secrets.AWS_REGION }}
+
+  #   - name: Read secrets from AWS Secrets Manager into environment variables
+  #     uses: abhilash1in/aws-secrets-manager-action@v2.1.0
+  #     with:
+  #       secrets: brainscore-website_jenkins_access
+  #       parse-json: false
+
+  #   - name: Set env variables from secret
+  #     run: |
+  #         echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+  #         echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+  #         echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+
+
     # - name: trigger single job
     #   uses: GoldenspearLLC/build-jenkins-job@master
     #   with:
