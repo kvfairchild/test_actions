@@ -62,6 +62,6 @@ jobs:
 
       - name: Auto Merge
         uses: reitermarkus/automerge@v2
-        env: 
+        with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: squash
