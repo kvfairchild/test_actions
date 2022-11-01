@@ -1,7 +1,7 @@
 name: Automatically approve and merge plugin PRs
 
 on:
-  pull-request
+  pull_request
 
 jobs:
   checkchanges:
@@ -38,7 +38,7 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
       - name: Auto merge
-        uses: reitermarkus/automerge@v2
+        uses: reitermarkus/automerge@v2.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: rebase
