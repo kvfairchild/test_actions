@@ -1,4 +1,4 @@
-name: Automatically approve and merge plugin PRs
+name: Automatically approve plugin-only PRs
 
 on:
   pull_request
@@ -28,7 +28,7 @@ jobs:
           echo "IS_PLUGIN_ONLY=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})" >> $GITHUB_OUTPUT
      
   automerge:
-    name: If only plugin files are changed, automatically approve and merge
+    name: If only plugin files are changed, automatically approve
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -37,10 +37,3 @@ jobs:
     steps:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
-      - name: Auto merge
-        uses: reitermarkus/automerge@v2.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: rebase
-          do-not-merge-labels: never-merge
-          pull-request: ${{ github.event.inputs.pull-request }}
