@@ -20,12 +20,17 @@ jobs:
     #     echo "JENKINS_TOKEN=trigger2scoreAmodel" >> $GITHUB_ENV
     #     echo "JOB_PATH=dev_run_benchmarks" >> $GITHUB_ENV
     #     echo "JOB_PARAMS='{"models":"brendel.Geirhos2021colour-top1"}'" >> $GITHUB_ENV
-    - name: build url
+    - name: build urls
       run: |
+        echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user $USER --password ${{ secrets.JENKINS_TOKEN }}" >> $GITHUB_ENV
         echo "URL=$JENKINS_URL/job/$JOB_PATH/buildWithParameters?models=brendel.Geirhos2021colour-top1&token=$JENKINS_TOKEN" >> $GITHUB_ENV
-    - name: curl
+    - name: get crumb
       run: |
-        curl -X POST ${{ env.URL }}
+        response = $(curl -v -X GET ${{ env.CRUMB_URL }})
+        echo "$response"
+    # - name: curl
+    #   run: |
+    #     curl -X POST ${{ env.URL }}
   # getawscreds:
   #   name: Get AWS Credentials
   #   runs-on: ubuntu-latest
