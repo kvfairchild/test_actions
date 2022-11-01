@@ -32,7 +32,6 @@ jobs:
           echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
           echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
 
-    steps:
     - name: build urls
       run: |
         echo "CRUMB_URL=$JENKINS_URL/crumbIssuer/api/json --user ${{ env.USER }}:${{ env.PASSWORD }}" >> $GITHUB_ENV
