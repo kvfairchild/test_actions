@@ -27,17 +27,11 @@ jobs:
           echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
           echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
 
-    - name: Check env variables
-      run: |
-          echo "$USER"
-          echo "$PASSWORD"
-          echo "$JENKINS_PASSWORD"
-
-    # - name: trigger single job
-    #   uses: GoldenspearLLC/build-jenkins-job@master
-    #   with:
-    #     jenkins-url: "braintree.mit.edu:8080/"
-    #     user: ${{ env.USER }}
-    #     jenkins-token: ${{ env.PASSWORD }}
-    #     job-path: "dev_run_benchmarks/"
-    #     job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
+    - name: trigger single job
+      uses: GoldenspearLLC/build-jenkins-job@master
+      with:
+        jenkins-url: "braintree.mit.edu:8080/"
+        user: ${{ env.USER }}
+        jenkins-token: ${{ env.PASSWORD }}
+        job-path: "dev_run_benchmarks/"
+        job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
