@@ -4,9 +4,10 @@ on:
   pull_request_target:
     types:
       - opened
-      - synchronized
-      - reopened
       - edited
+      - reopened
+      - ready_for_review
+      - synchronize
   check_suite:
     types:
       - completed
@@ -63,4 +64,3 @@ jobs:
         uses: reitermarkus/automerge@v2
         env: 
           token: "${{ secrets.GITHUB_TOKEN }}"
-          merge-method: "squash"
