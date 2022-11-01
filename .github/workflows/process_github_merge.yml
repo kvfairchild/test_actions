@@ -34,7 +34,7 @@ jobs:
 
     - name: curl
       run: |
-        curl -u ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} ${{ env.URL }}
+        curl -X POST -u ${{ env.USER }}:${{ secrets.JENKINS_TOKEN }} ${{ env.URL }}
   
   # getawscreds:
   #   name: Get AWS Credentials
