@@ -57,9 +57,6 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
 
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       # - name: Add automerge label
       #   uses: actions-ecosystem/action-add-labels@v1
       #   with:
