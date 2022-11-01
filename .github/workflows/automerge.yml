@@ -20,7 +20,7 @@ jobs:
         run: echo "CHANGED_FILES=${{ steps.filter.outputs.changed_files }}" >> $GITHUB_ENV
       - name: Run python script
         run: |
-          output=$(python parse_changed_files.py ${{ CHANGED_FILES }})
+          output=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})
           echo "::set-output name=changelog::$output"
         id: step1
       - name: Print changelog
