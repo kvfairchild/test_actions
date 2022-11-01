@@ -35,14 +35,10 @@ jobs:
     needs: checkchanges
     # if: ${{ needs.checkchanges.outputs.IS_PLUGIN_ONLY }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
-
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
-
-      - name: Enable automerge
-        uses: peter-evans/enable-pull-request-automerge@v2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pull-request-number: ${{ github.event.issue.number }}
+      - name: Auto Merge
+        uses: alexwilson/enable-github-automerge-action@main
+            with:
+              github-token: "${{ secrets.GITHUB_TOKEN }}"
+              merge-method: "SQUASH"
