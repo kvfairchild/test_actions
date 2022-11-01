@@ -4,7 +4,7 @@ on:
   pull_request
 
 jobs:
-  changes:
+  checkchanges:
     name: Check if PR only changes /benchmarks and/or /models
     runs-on: ubuntu-latest
     steps:
@@ -23,20 +23,21 @@ jobs:
       - name: Save changed files to env var
         run: echo "CHANGED_FILES=${{ steps.filter.outputs.changed_files }}" >> $GITHUB_ENV
       
-      - name: Run python script
+      - name: Parse changed files with python script
         run: |
-          echo "IS_PLUGIN_ONLY=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})" >> $GITHUB_ENV
+          echo "IS_PLUGIN_ONLY=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})" >> $GITHUB_OUTPUT
      
-      - name: Print output
-        run: echo "${{ env.IS_PLUGIN_ONLY }}"
-  # autoapprove:
-  #   name: Automatically Approve a Plugin PR
-  #   # needs: changes
-  #   # if: ${{ needs.changes.outputs.benchmarks == 'true' }} or 
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Auto Approve
-  #       uses: hmarr/auto-approve-action@v3.1.0
+  automerge:
+    name: If only plugin files are changed, automatically approve and merge
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    needs: checkchanges
+    if: ${{ env.IS_PLUGIN_ONLY }}
+    steps:
+      - name: Auto Approve
+        uses: hmarr/auto-approve-action@v3.1.0
+
   # automerge:
   #   name: Automatically merge after successful checks
   #   needs: autoapprove
