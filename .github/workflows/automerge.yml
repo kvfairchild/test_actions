@@ -3,6 +3,10 @@ name: Automatically approve plugin-only PRs
 on:
   pull_request_target:
     types:
+      - opened
+      - synchronized
+      - reopened
+      - edited
       - ready_for_review
 
 jobs:
