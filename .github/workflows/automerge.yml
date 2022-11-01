@@ -58,5 +58,5 @@ jobs:
       - name: Auto Merge
         uses: "pascalgn/automerge-action@v0.15.5"
         env: 
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ github.token }}"
           MERGE_METHOD: "squash"
