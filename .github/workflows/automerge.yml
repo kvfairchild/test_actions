@@ -37,3 +37,14 @@ jobs:
     steps:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
+
+      - name: Enable automerge on dependabot PRs
+        uses: daneden/enable-automerge-action@v1
+        with:
+          # A personal access token that you have generated and saved in the
+          # repo or org’s encrypted secrets
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          # Allowed values: MERGE | SQUASH | REBASE
+          # Defaults to MERGE
+          merge-method: SQUASH
