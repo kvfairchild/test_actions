@@ -22,7 +22,7 @@ jobs:
         parse-json: false
 
     - name: Set secret to global env var
-      run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV
+      run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV"
 
   parseawscreds:
     name: Parse AWS Credentials
