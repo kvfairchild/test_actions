@@ -4,9 +4,6 @@ on:
   pull_request:
     types:
       - ready_for_review
-  check_suite:
-    types:
-      - completed
 
 jobs:
   checkchanges:
@@ -43,6 +40,9 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
       - name: Auto merge
-        uses: pascalgn/automerge-action@v0.15.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: reitermarkus/automerge@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: rebase
+          do-not-merge-labels: never-merge
+          pull_request: ${{ github.event.inputs.pull-request }}
