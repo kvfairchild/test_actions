@@ -21,20 +21,23 @@ jobs:
         secrets: brainscore-website_jenkins_access
         parse-json: false
 
-    - name: Set secret to env var
-      run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV
-
     - name: Set env variables from secret
       run: |
-          echo "USER=$(jq -r '.user' <<< "$JENKINS")" >> $GITHUB_ENV
-          echo "PASSWORD=$(jq -r '.password' <<< "$JENKINS")" >> $GITHUB_ENV
-          echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$JENKINS")" >> $GITHUB_ENV
+          echo "USER=$(jq -r '.user' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+          echo "PASSWORD=$(jq -r '.password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
+          echo "JENKINS_PASSWORD=$(jq -r '.jenkins_password' <<< "$BRAINSCORE_WEBSITE_JENKINS_ACCESS")" >> $GITHUB_ENV
 
-    - name: trigger single job
-      uses: GoldenspearLLC/build-jenkins-job@master
-      with:
-        jenkins-url: "braintree.mit.edu:8080/"
-        user: ${{ env.USER }}
-        jenkins-token: ${{ env.PASSWORD }}
-        job-path: "dev_run_benchmarks/"
-        job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
+    - name: Check env variables
+      run: |
+          echo "$USER"
+          echo "$PASSWORD"
+          echo "$JENKINS_PASSWORD"
+
+    # - name: trigger single job
+    #   uses: GoldenspearLLC/build-jenkins-job@master
+    #   with:
+    #     jenkins-url: "braintree.mit.edu:8080/"
+    #     user: ${{ env.USER }}
+    #     jenkins-token: ${{ env.PASSWORD }}
+    #     job-path: "dev_run_benchmarks/"
+    #     job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
