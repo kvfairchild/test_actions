@@ -1,17 +1,22 @@
 name: Merge plugin-only PRs
 
 on:
-  pull_request
-  # pull_request_target:
-  #   types:
-  #     - opened
-  #     - edited
-  #     - reopened
-  #     - ready_for_review
-  #     - synchronize
-  # check_suite:
-  #   types:
-  #     - completed
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - reopened
+      - ready_for_review
+      - synchronize
+  check_suite:
+    types:
+      - completed
+
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Pull Request Number
+        required: false
 
 permissions:
   checks: read
@@ -66,3 +71,5 @@ jobs:
         with: 
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: squash
+          pull-request: ${{ github.event.inputs.pull-request }}
+          
