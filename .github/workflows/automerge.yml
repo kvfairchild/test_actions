@@ -5,7 +5,8 @@ on:
     types:
       - ready_for_review
   check_suite:
-    conclusion: success
+    types:
+      - completed
 
 jobs:
   checkchanges:
