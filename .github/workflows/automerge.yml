@@ -21,7 +21,7 @@ jobs:
               - '**'
 
       - name: Save changed files to env var
-        run: echo "CHANGED_FILES=[${{ steps.filter.outputs.changed_files }}]" >> $GITHUB_ENV
+        run: echo "CHANGED_FILES=${{ steps.filter.outputs.changed_files }}" >> $GITHUB_ENV
       
       - name: Run python script
         run: |
