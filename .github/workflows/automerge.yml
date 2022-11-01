@@ -3,10 +3,10 @@ name: Automatically approve plugin-only PRs
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 jobs:
   checkchanges:
