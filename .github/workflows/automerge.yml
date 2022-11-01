@@ -1,7 +1,12 @@
 name: Automatically approve plugin-only PRs
 
 on:
-  pull_request
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   checkchanges:
@@ -40,5 +45,5 @@ jobs:
       - name: Auto Merge
         uses: reitermarkus/automerge@v2
         with:
-          github-token: "${{ secrets.AUTOMERGE_TOKEN }}"
+          token: "${{ secrets.AUTOMERGE_TOKEN }}"
           merge-method: "squash"
