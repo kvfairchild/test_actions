@@ -49,13 +49,13 @@ jobs:
   automerge:
     name: If only plugin files are changed, automatically approve and merge
     runs-on: ubuntu-latest
-    # permissions:
-    #   pull-requests: write
-    # needs: checkchanges
-    # # if: ${{ needs.checkchanges.outputs.IS_PLUGIN_ONLY }}
-    # steps:
-    #   - name: Auto Approve
-    #     uses: hmarr/auto-approve-action@v3.1.0
+    permissions:
+      pull-requests: write
+    needs: checkchanges
+    # if: ${{ needs.checkchanges.outputs.IS_PLUGIN_ONLY }}
+    steps:
+      - name: Auto Approve
+        uses: hmarr/auto-approve-action@v3.1.0
 
       # - name: Add automerge label
       #   uses: actions-ecosystem/action-add-labels@v1
@@ -64,7 +64,11 @@ jobs:
       #       automerge
 
       - name: Auto Merge
-        uses: reitermarkus/automerge@v2
-        with: 
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash
+        uses: squalrus/merge-bot@v0.1.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          test: true
+          reviewers: true
+          checks_enabled: true
+          method: squash
+          delete_source_branch: true
