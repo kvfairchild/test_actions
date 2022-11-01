@@ -2,7 +2,15 @@
 name: Merge plugin-only PRs
 
 on:
-  pull_request_target
+  pull_request
+  check_suite:
+    types:
+      - completed
+
+permissions:
+  checks: read
+  contents: write
+  actions: write
 
 jobs:
   checkchanges:
@@ -38,7 +46,7 @@ jobs:
       - name: Auto Approve
         uses: hmarr/auto-approve-action@v3.1.0
 
-      - name: checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Add automerge label
