@@ -7,6 +7,8 @@ jobs:
   getawscreds:
     name: Get AWS Credentials
     runs-on: ubuntu-latest
+    outputs: 
+      jenkins: ${{ steps.setsecret.outputs.jenkins }}
     steps:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -21,18 +23,17 @@ jobs:
         secrets: brainscore-website_jenkins_access
         parse-json: false
 
-    - name: Set secret to global env var
-      run: echo "JENKINS=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_ENV"
-
-    - name: Check if env var is set
-      run: echo "$JENKINS"
+    - name: Set secret as job output
+      id: setsecret
+      run: echo "jenkins=$"BRAINSCORE_WEBSITE_JENKINS_ACCESS" >> $GITHUB_OUTPUT"
 
   parseawscreds:
     name: Parse AWS Credentials
     runs-on: ubuntu-latest
+    needs: getawscreds
     steps:
-    - name: Check if env var is set
-      run: echo "$JENKINS"
+    - name: Check if output is available
+      run: echo ${{needs.getawscreds.outputs.jenkins}}
     # - name: 
 
 
