@@ -32,6 +32,6 @@ jobs:
       with:
         jenkins-url: "braintree.mit.edu:8080/"
         user: ${{ env.USER }}
-        jenkins-token: ${{ env.PASSWORD }}
+        jenkins-token: "trigger2scoreAmodel"
         job-path: "dev_run_benchmarks/"
         job-params: '{"models":"brendel.Geirhos2021colour-top1"}'
