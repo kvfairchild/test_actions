@@ -1,4 +1,3 @@
-
 name: Merge plugin-only PRs
 
 on:
@@ -64,4 +63,5 @@ jobs:
         uses: reitermarkus/automerge@v2
         env: 
           token: "${{ secrets.GITHUB_TOKEN }}"
-          merge-method: "squash"
+          merge-method: squash
+          
