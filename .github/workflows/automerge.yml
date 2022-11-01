@@ -17,8 +17,9 @@ jobs:
             changed:
               - '**'
       - name: Save changed files to env var
-        run: echo "CHANGED_FILES=${{ steps.filter.outputs.changed_files }}" >> $GITHUB_ENV
+        run: echo "CHANGED_FILES=[${{ steps.filter.outputs.changed_files }}]" >> $GITHUB_ENV
       - name: Run python script
+        uses: actions/checkout@v2
         run: |
           output=$(python parse_changed_files.py ${{ env.CHANGED_FILES }})
           echo "::set-output name=changelog::$output"
