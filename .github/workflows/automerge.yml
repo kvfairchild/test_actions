@@ -60,8 +60,8 @@ jobs:
       #     labels:
       #       automerge
 
-      - name: Auto Merge
-        uses: reitermarkus/automerge@v2
-        with: 
-          token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: squash
+      # - name: Auto Merge
+      #   uses: reitermarkus/automerge@v2
+      #   with: 
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     merge-method: squash
