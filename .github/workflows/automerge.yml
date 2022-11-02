@@ -67,6 +67,7 @@ jobs:
         uses: squalrus/merge-bot@v0.1.0
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          test: true
           reviewers: false
           labels: automerge
           checks_enabled: true
